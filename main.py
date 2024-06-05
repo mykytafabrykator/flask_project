@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify
 from datetime import datetime
 from dotenv import load_dotenv
 import os
+from waitress import serve
 
 app = Flask(__name__)
 
@@ -84,4 +85,4 @@ if __name__ == '__main__':
     data_update_thread.daemon = True
     data_update_thread.start()
     
-    return app
+    serve(app, host="0.0.0.0", port=80)
