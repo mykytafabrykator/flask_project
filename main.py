@@ -49,12 +49,9 @@ def periodic_data_update(interval):
         get_data_from_api()
         time.sleep(interval)
 
-@app.route("/")
+@app.route('/')
 def hello_world():
-    res = (
-        "<h1>Hello my friends</h1>"
-    )
-    return res
+    return 'Hello, World!'
 
 @app.route('/get_value', methods=['GET'])
 def get_value():
