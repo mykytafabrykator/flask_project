@@ -8,20 +8,21 @@ import os
 
 app = Flask(__name__)
 
+# Загрузка переменных окружения
 load_dotenv()
 
-# Конфігурація API
+# Конфигурация API из переменных окружения
 API_URL = os.getenv('API_URL')
 API_TOKEN = os.getenv('API_TOKEN')
 API_HEADERS = {
     'Authorization': f'Bearer {API_TOKEN}'
 }
 
-# Глобальна змінна для зберігання даних
+# Глобальная переменная для хранения данных
 data_cache = None
-last_update_time = None  # змінна для зберігання часу останнього оновлення
+last_update_time = None  # переменная для хранения времени последнего обновления
 
-# Мапінг областей англійською мовою
+# Маппинг областей на английском языке
 regions = [
     "Crimea", "Volyn", "Vinnytsia", "Dnipro", "Donetsk", 
     "Zhytomyr", "Zakarpattia", "Zaporizhzhia", "Ivano-Frankivsk", "Kyiv City", 
@@ -37,7 +38,7 @@ def get_data_from_api():
         response = requests.get(API_URL, headers=API_HEADERS)
         if response.status_code == 200:
             data_cache = response.text
-            last_update_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Оновити час останнього оновлення
+            last_update_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Обновить время последнего обновления
             print(f'[WEB] API request made at {last_update_time}')
         else:
             print(f'Failed to fetch data from API: {response.status_code}')
@@ -66,18 +67,17 @@ def get_value():
     if device_id <= 0 or device_id > len(data_cache):
         return jsonify({'error': 'Invalid data or ID out of range'}), 400
 
-    # Отримати відповідний символ
+    # Получить соответствующий символ
     value = data_cache[device_id]
     region = regions[device_id - 1]
 
     return jsonify({'value': value, 'obl': region, 'updateTime': last_update_time})
 
 if __name__ == '__main__':
-    print('Test1')
-    # Запуск фонового потоку для оновлення даних
-    update_interval = 10  # інтервал у секундах
+    # Запуск фонового потока для обновления данных
+    update_interval = 10  # интервал в секундах
     data_update_thread = threading.Thread(target=periodic_data_update, args=(update_interval,))
     data_update_thread.daemon = True
     data_update_thread.start()
-    print('Test2')
+    
     app.run(host='0.0.0.0', port=80)
