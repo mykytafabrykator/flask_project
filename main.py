@@ -50,7 +50,7 @@ def periodic_data_update(interval):
         get_data_from_api()
         time.sleep(interval)
 
-@app.route('/')
+@app.route('/de-fra1')
 def index():
     return render_template('index.html')
 
