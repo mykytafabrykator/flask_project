@@ -1,7 +1,7 @@
 import requests
 import threading
 import time
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -71,6 +71,11 @@ def get_value():
     region = regions[device_id - 1]
 
     return jsonify({'value': value, 'obl': region, 'updateTime': last_update_time})
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
+
 
 if __name__ == '__main__':
     # Запуск фонового потоку для оновлення даних
