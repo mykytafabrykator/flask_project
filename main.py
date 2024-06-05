@@ -85,3 +85,5 @@ if __name__ == '__main__':
     data_update_thread = threading.Thread(target=periodic_data_update, args=(update_interval,))
     data_update_thread.daemon = True
     data_update_thread.start()
+
+    app.run(host='0.0.0.0', port=80)
