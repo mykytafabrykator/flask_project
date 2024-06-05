@@ -49,6 +49,13 @@ def periodic_data_update(interval):
         get_data_from_api()
         time.sleep(interval)
 
+@app.route("/")
+def hello_world():
+    res = (
+        "<h1>Hello my friends</h1>"
+    )
+    return res
+
 @app.route('/get_value', methods=['GET'])
 def get_value():
     device_id = request.args.get('id')
@@ -78,5 +85,3 @@ if __name__ == '__main__':
     data_update_thread = threading.Thread(target=periodic_data_update, args=(update_interval,))
     data_update_thread.daemon = True
     data_update_thread.start()
-    
-    app.run(host='0.0.0.0', port=5000)
