@@ -73,10 +73,11 @@ def get_value():
     return jsonify({'value': value, 'obl': region, 'updateTime': last_update_time})
 
 if __name__ == '__main__':
+    print('Test1')
     # Запуск фонового потоку для оновлення даних
     update_interval = 10  # інтервал у секундах
     data_update_thread = threading.Thread(target=periodic_data_update, args=(update_interval,))
     data_update_thread.daemon = True
     data_update_thread.start()
-
+    print('Test2')
     app.run(host='0.0.0.0', port=80)
