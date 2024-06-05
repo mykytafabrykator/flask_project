@@ -2,6 +2,7 @@ import requests
 import threading
 import time
 from flask import Flask, request, jsonify
+from flask import render_template
 from datetime import datetime
 from dotenv import load_dotenv
 import os
@@ -50,8 +51,8 @@ def periodic_data_update(interval):
         time.sleep(interval)
 
 @app.route('/')
-def hello_world():
-    return 'Hello, World!'
+def index():
+    return render_template('index.html')
 
 @app.route('/get_value', methods=['GET'])
 def get_value():
